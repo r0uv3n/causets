@@ -33,7 +33,7 @@ class TestCausetplotting(unittest.TestCase):
                          pastcones={'facecolor': 'none', 'alpha': 0.8},
                          futurecones={'facecolor': 'none', 'alpha': 0.8})
         P([0.7])
-        ax = cplt.gca()
+        ax = cplt._getAxis()
         if len(dims) > 2:
             ax.xaxis.pane.fill = False
             ax.yaxis.pane.fill = False

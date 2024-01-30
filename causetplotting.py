@@ -17,6 +17,7 @@ from matplotlib import patches  # @UnusedImport
 from matplotlib.pyplot import figure, gca, show  # @UnusedImport
 from matplotlib.axes import Axes  # @UnusedImport
 from matplotlib.patches import Patch  # @UnusedImport
+from causets.utils import _getAxis
 
 default_colors: Dict[str, str] = {'links':       'cs:blue',
                                   'linksedge':   'cs:blue',
@@ -377,10 +378,10 @@ def Plotter(E: Union[CausetEvent, List[CausetEvent], EmbeddedCauset],
     ax: Axes = plotAxes
     if is3d:
         _z: int = _xy_z[2]
-        if plotAxes is None:
-            ax = gca(projection='3d')
-    elif plotAxes is None:
-        ax = gca(projection=None)
+    
+    if plotAxes is None:
+        ax = _getAxis(is3d)
+
     # ====================
     # set spacetime and lightcone parameters:
     isPlottingPastcones: bool = 'pastcones' in plotting
@@ -718,6 +719,6 @@ def plotDiagram(E: List[CausetEvent], permutation: List[int] = [],
             e.Position = C[i, :]
     H: Dict[str, Any] = plot(E, plotAxes, **kwargs)
     if plotAxes is None:
-        plotAxes = gca()
+        plotAxes = _getAxis()
     plotAxes.set_axis_off()
     return H

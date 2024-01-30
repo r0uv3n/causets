@@ -10,12 +10,13 @@ from typing import Callable, Tuple, List, Dict, Any, Union, Optional
 import numpy as np
 import math
 from matplotlib import patches
-from matplotlib.pyplot import gca
+from matplotlib.pyplot import subplot
 from matplotlib.axes import Axes
 from matplotlib.patches import Patch
 from causets.shapes import CoordinateShape  # @UnresolvedImport
 import causets.shapes as shp  # @UnresolvedImport
 from causets.calculations import NewtonsMethod as Newton  # @UnresolvedImport
+from causets.utils import _getAxis
 
 default_samplingsize: int = 128  # default value for sampling lightcones
 causality_eps: float = 1e-12  # tolerance for causality rounding errors
@@ -138,7 +139,7 @@ class Spacetime(object):
         '''
         Returns a function handle to plot past (`timesign == -1`) or future 
         (`timesign == 1`) causal cones for the spacetime `self` into the axes 
-        object `axes` (given by gca() by default, with projection='3d' if 
+        object `axes` (creating a new axis by default, with projection='3d' if 
         len(dims) > 2) up to the coordinate time `timeslice` with plotting 
         parameters given in the dictionary `plotting_params`. The time 
         coordinate goes along the axis with index `timeaxis`. As optional 
@@ -151,8 +152,7 @@ class Spacetime(object):
         is3d: bool = len(dims) == 3
         _axes: Axes
         if axes is None:
-            _axes = gca(projection='3d') if is3d else \
-                gca(projection=None)
+            _axes = _getAxis(is3d)
         else:
             _axes = axes
         timeaxis: int
@@ -350,8 +350,7 @@ class FlatSpacetime(Spacetime):
         is3d: bool = len(dims) == 3
         _axes: Axes
         if axes is None:
-            _axes = gca(projection='3d') if is3d else \
-                gca(projection=None)
+            _axes = _getAxis(is3d)
         else:
             _axes = axes
         timeaxis: int

@@ -10,7 +10,7 @@ from typing import List, Dict, Tuple, Any, Union, Optional
 import math
 import numpy as np
 from matplotlib import patches
-from matplotlib.pyplot import gca
+from matplotlib.pyplot import subplot
 from matplotlib.axes import Axes
 from matplotlib.patches import Patch
 
@@ -255,7 +255,7 @@ class CoordinateShape(object):
         Plots a cut through the center of the shape showing `dims` that 
         can be a list of 2 integers (for a 2D plot) or 3 integers (for a 3D 
         plot). The argument `plotAxes` specifies the plot axes object to be 
-        used (by default the current axes of `matplotlib`). 
+        used (by default a new axis is created).
         As optional keyword arguments, the plotting options can be specified 
         that will overwrite the defaults that are for 2D:
         {'edgecolor': 'black', 'facecolor': 'black', 'alpha': 0.05}
@@ -268,8 +268,8 @@ class CoordinateShape(object):
         '''
         is3d: bool = len(dims) == 3
         if plotAxes is None:
-            plotAxes = gca(projection='3d') if is3d else \
-                gca(projection=None)
+            plotAxes = subplot(projection='3d') if is3d else \
+                subplot(projection=None)
         if is3d:
             plotoptions = {'edgecolor': None,
                            'color': 'black',

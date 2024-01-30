@@ -39,7 +39,7 @@ cplt.plot(e, dims=dims, spacetime=C.Spacetime,
           events={'markerfacecolor': 'cs:red'},
           pastcones={'alpha': 1.0}, futurecones={'alpha': 1.0},
           time=timeslices)
-ax: cplt.Axes = cplt.gca()
+ax: cplt.Axes = cplt._getAxis()
 ax.set_xlabel('space' if dims[0] > 0 else 'time')
 ax.set_ylabel('space' if dims[1] > 0 else 'time')
 if len(dims) > 2:

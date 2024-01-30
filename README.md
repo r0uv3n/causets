@@ -23,7 +23,7 @@ The original code was developed in MATLAB R2019a and R2020a as part of my PhD pr
 * [Local structure of sprinkled causal sets, part 2/2 - 'diamondresults'](https://github.com/c-minz/diamondresults)
 * [MATLAB object classes and other - 'MATLAB-causets'](https://github.com/c-minz/MATLAB-causets)
 
-In order to make the code usable without a MATLAB license, I started to convert it to the Python modules (Python 3.8.3) with mypy typing support that are in this repository.
+In order to make the code usable without a MATLAB license, I started to convert it to the Python modules (originally Python 3.8.3) with mypy typing support that are in this repository.
 
 The Python modules (classes and functions) are documented (use `help [class/function name]` in Python).
 
