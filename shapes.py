@@ -71,9 +71,9 @@ class CoordinateShape(object):
                              'It must be an integer of at least 1.')
         self._dim = dim
         # set name:
-        if name == 'diamond':
-            name = 'bicone'
-        elif name not in ['ball', 'bicone', 'cylinder',
+        if name == 'bicone':
+            name = 'diamond'
+        elif name not in ['ball', 'diamond', 'cylinder',
                           'cube', 'cuboid']:
             raise ValueError('A shape with name ''' +
                              f'{name}'' is not supported.')
@@ -109,7 +109,7 @@ class CoordinateShape(object):
         # set shape parameters:
         value: float
         self._params = {}
-        if name in {'ball', 'bicone', 'cylinder'}:
+        if name in {'ball', 'diamond', 'cylinder'}:
             self._params['radius'] = np.array(kwargs.get('radius', 1.0),
                                               dtype=np.float32)
             param_rangecheck('radius')
@@ -198,7 +198,7 @@ class CoordinateShape(object):
                 V *= math.pi**(self._dim / 2.0 - 0.5) / \
                     math.gamma(self._dim / 2.0 + 0.5)
                 V *= self._params['duration']
-            elif self._name == 'bicone':
+            elif self._name == 'diamond':
                 V = r**self._dim
                 if isHollow:
                     V -= (self._params['hollow'] * r)**self._dim
@@ -218,7 +218,7 @@ class CoordinateShape(object):
         '''
         if self.Name == 'cube':
             return self._params['edge'] / 2
-        elif self.Name in {'bicone', 'ball'}:
+        elif self.Name in {'diamond', 'ball'}:
             return self._params['radius']
         elif self.Name == 'cylinder':
             if dims.count(0) > 0:
@@ -294,7 +294,7 @@ class CoordinateShape(object):
                 S = CubeSurface(self.Center[dims],
                                 self._params['edge'])
             elif self.Name == 'ball' or \
-                    ((timeaxis < 0) and (self.Name in {'bicone', 'cylinder'})):
+                    ((timeaxis < 0) and (self.Name in {'diamond', 'cylinder'})):
                 r = self._params['radius']
                 S = BallSurface(self.Center[dims], r)
                 if hollow > 0.0:
@@ -305,7 +305,7 @@ class CoordinateShape(object):
                 h: float = self._params['duration']
                 S = CylinderSurface(self.Center[dims],
                                     r, h, hollow, timeaxis)
-            elif self.Name == 'bicone':
+            elif self.Name == 'diamond':
                 r = self._params['radius']
                 conecenter: np.ndarray = self.Center[dims]
                 tip: np.ndarray = conecenter.copy()
@@ -336,7 +336,7 @@ class CoordinateShape(object):
                     self.Center[dims] - 0.5 * np.array([a, a]), width=a,
                     height=a, **plotoptions)
             elif self.Name == 'ball' or \
-                    ((timeaxis < 0) and (self.Name in {'bicone', 'cylinder'})):
+                    ((timeaxis < 0) and (self.Name in {'diamond', 'cylinder'})):
                 if hollow == 0.0:
                     p = patches.Circle(
                         self.Center[dims], self._params['radius'],
@@ -353,7 +353,7 @@ class CoordinateShape(object):
                 if timeaxis == 0:
                     cyl = cyl[:, [1, 0]]
                 p = patches.Polygon(cyl, **plotoptions)
-            elif self.Name == 'bicone':
+            elif self.Name == 'diamond':
                 p = patches.Polygon(
                     BiconeEdge(self.Center[dims], self._params['radius'],
                                hollow),
